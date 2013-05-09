@@ -1,0 +1,62 @@
+COMPILER Phonebook
+
+PhonebookFormatGenerator Phoneg;
+
+/*-- Scanner specification --*/
+	
+IGNORECASE
+
+CHARACTERS
+ letter = 'A' .. 'Z' + 'a' .. 'z'.
+ digit = '0' .. '9'.
+
+TOKENS
+ ident = letter {letter}.
+ number = digit {digit}.
+ 
+ /* operators and special characters needed in LL(1) resolvers */
+ lpar = '('.
+ rpar = ')'.
+ zerotoken = '0'.
+ comma = ','.
+ period = '.'.
+ 
+IGNORE '\t' + '\r' + '\n'
+
+/*-- Parser specification --*/
+
+PRODUCTIONS
+ Phonebook = {PersonalCard}.
+
+ PersonalCard = ident (. String lastname = t.val; Phoneg.PrintLastName(lastname); .)
+                comma FirstName
+                {PhoneType PhoneNumber (. Phoneg.NewLine(); .) }        
+                .
+
+ FirstName = (. String firstname, secondname = ""; boolean isPeriod = false; .)
+             ident (. firstname = t.val; .)
+             [ident (. secondname = t.val; .)
+             [period (. isPeriod = true; .) ]]
+             (. Phoneg.PrintFirstName(firstname, secondname, isPeriod); .)
+             . 
+
+ PhoneType = (. String phoneType = ""; .)
+             [ "office" (. phoneType = "office"; .) 
+             | "mobile" (. phoneType = "mobile"; .) 
+             | "home" (. phoneType = "home"; .) ] 
+             (. Phoneg.PrintPhoneType(phoneType); .)
+             .
+
+ PhoneNumber = (. String num = ""; boolean isCountryCode = false; boolean isCityCode = false; .)
+                [CountryCode (. isCountryCode = true; isCityCode = true; .) ] 
+                number (. num = t.val; Phoneg.CheckCityCode(num, isCountryCode, isCityCode); .)
+                {number (. num = t.val; Phoneg.PrintNumber(num, true, true); .)}
+                .
+
+ CountryCode = "+" number (. String countryCodeFirst = t.val; .)
+                (. Phoneg.PrintCountryCode(countryCodeFirst); .)
+                lpar zerotoken rpar (. Phoneg.PrintZero(); .)
+                .
+
+ END Phonebook.
+

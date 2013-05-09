@@ -1,0 +1,35 @@
+COMPILER TreeGenerator
+
+JSONGenerator Jg;
+
+/*-- Scanner specification --*/
+
+CHARACTERS
+ letter = 'A' .. 'Z' + 'a' .. 'z'.
+
+TOKENS
+ ident = letter {letter}.
+
+ /* operators and special characters needed in LL(1) resolvers */
+ lpar = "(".
+ rpar = ")".
+ 
+IGNORE '\t' + '\r' + '\n'
+
+/*-- Parser specification --*/
+
+PRODUCTIONS
+ TreeGenerator = Tree.
+ Tree = "(" [Node] ")".			 
+ Node = 		(. Jg.PrintOpenJson(); .)
+	ident 		(. String name = t.val; .)
+			(. Jg.PrintNode(name); .)
+	[Son]						 
+			(. Jg.PrintCloseJson(); .)
+	.
+ Son = 			(. Jg.PrintChildInit(); .)
+	Tree Tree
+			(. Jg.PrintChildClose(); .)
+	.					
+ END TreeGenerator.
+

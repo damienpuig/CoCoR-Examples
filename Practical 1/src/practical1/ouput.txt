@@ -1,0 +1,1 @@
+{"city": "London", "partners":" [{"city": "Brussels"}{"city": "Paris", "partners":" [{"city": "Madrid"}{"city": "Rome", "partners":" [{"city": "Vienna"}]}]}]}
