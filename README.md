@@ -4,7 +4,7 @@ CoCo-Examples
 Use of the CoCo Compiler Compiler. 
 
 Both projects show how to compile a file (random extension) using the right grammar, and compute it to end up 
-with a compiler that deliver JSON files.
+with a compiler that delivers JSON files.
 
 - The first project has a grammar that matches the following pattern:  
 
