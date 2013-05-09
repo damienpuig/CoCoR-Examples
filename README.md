@@ -1,7 +1,7 @@
-CoCo-Examples
+CoCoR-Examples
 =============
 
-Use of the CoCo Compiler Compiler. 
+Use of the CoCoR Compiler Compiler. 
 
 Both projects show how to compile a file (random extension) using the right grammar, and compute it to end up 
 with a compiler that delivers JSON files.
